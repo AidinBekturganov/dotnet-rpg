@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using dotnet_rpg.Dtos.Character;
 using dotnet_rpg.Services.CharacterService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace dotnet_rpg.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CharacterController : ControllerBase
@@ -59,6 +62,12 @@ namespace dotnet_rpg.Controllers
                 return NotFound(response);
             }
             return Ok(response);
+        }
+
+        [HttpPost("Skill")]
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> AddCharacterSkill(AddCharacterSkillDto newCharacterSkill)
+        {
+            return Ok(await _characterService.AddCharacterSkill(newCharacterSkill));
         }
     }
 }
